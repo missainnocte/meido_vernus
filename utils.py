@@ -25,13 +25,14 @@ def localize(url):
     #     id = 0
     # else:
     #     id = id + 1
-    log.info('开始缓存文件, url: {}'.format(url))
+    log.debug('开始缓存文件, url: {}'.format(url))
     r = requests.get(url)
     filename = url.split('/')[-1]
     path = '/temp/{}'.format(filename)
+    log.debug('缓存文件下载完成, url: {}, path: {}'.format(url, path))
     with open('{}{}'.format(PUBLIC_PATH, path), 'wb') as f:
         f.write(r.content)
-    log.info('完成缓存文件, url: {}, local: {}'.format(url, path))
+    log.debug('完成缓存文件, url: {}, local: {}'.format(url, path))
     return (path, id)
 
 if __name__ == "__main__":

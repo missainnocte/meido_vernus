@@ -40,12 +40,24 @@ def send_setu(target):
 
 def event_handler(msg):
     msg_chain = msg.get('messageChain')
-    at_me = filter(lambda v: v.get('type') ==
-                   'At' and v.get('target') == QQ_NUM, msg_chain)
-    if len([at_me]) == 0:
+    if not is_at_me(msg_chain):
         return
-    req_setu = filter(lambda v: v.get('type') ==
-                      'Plain' and '色图' in v.get('text'), msg_chain)
-    if len([req_setu]) == 0:
+    if not is_req_setu(msg_chain):
         return
     return send_setu(get_group(msg))
+
+
+def is_at_me(msg_ch):
+    flt = filter(lambda v: v.get('type') ==
+                   'At' and v.get('target') == QQ_NUM, msg_ch)
+    if len(list(flt)) == 0:
+        return False
+    return True
+
+
+def is_req_setu(msg_ch):
+    flt = filter(lambda v: v.get('type') ==
+                   'Plain' and '色图' in v.get('text'), msg_ch)
+    if len(list(flt)) == 0:
+        return False
+    return True
