@@ -12,15 +12,17 @@ def mirai_api(p):
 
 def mirai_of(r: requests.Response):
     if not r.ok:
-        log.error('/auth http错误: {}'.format(r))
+        log.error('{} http错误: {}'.format(r.url, r))
     raise HTTPError
     res = r.json()
     if not res.get('code') == 1:
-        log.error('/auth api错误'.format(res))
+        log.error('{} api错误'.format(r.url, res))
         raise Exception
     return res
 
+
 id = 0
+
 
 def localize(url):
     if id == TEMP_MAX:

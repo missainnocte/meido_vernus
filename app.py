@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from initializer import init
 from robot import init as init_robot
 

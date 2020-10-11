@@ -3,8 +3,8 @@ import logging as log
 
 import requests
 from config import *
+from utils import localize
 
-from ..utils import localize
 from .mirai import get_group, send
 
 session = None
