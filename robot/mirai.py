@@ -9,7 +9,7 @@ from utils import mirai_api, mirai_of
 
 
 def auth():
-    r = requests.get(mirai_api('/auth'), json={'authKey': MIRAI_KEY})
+    r = requests.post(mirai_api('/auth'), json={'authKey': MIRAI_KEY})
     return mirai_of(r).get('session')
 
 
