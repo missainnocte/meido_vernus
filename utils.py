@@ -20,8 +20,9 @@ def mirai_of(r: requests.Response):
         raise Exception
     return res
 
+id = 0
 
-def localize(url, id):
+def localize(url):
     if id == TEMP_MAX:
         id = 0
     else:

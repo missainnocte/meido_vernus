@@ -1,5 +1,5 @@
 from initializer import init
-from setu import start
+from robot import init as init_robot
 
 
 def welcome():
@@ -16,4 +16,4 @@ def welcome():
 if __name__ == '__main__':
     welcome()
     init()
-    start()
+    init_robot()

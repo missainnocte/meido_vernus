@@ -3,9 +3,8 @@ import logging as log
 import time
 
 import requests
-from requests.exceptions import HTTPError
-
 from config import *
+from requests.exceptions import HTTPError
 from utils import mirai_api, mirai_of
 
 
@@ -37,14 +36,18 @@ def get_session():
     return session
 
 
-def loop_pull(session, callback: function, timeout=10):
-    while True:
-        r = requests.get(mirai_api('/countMessage'),
-                         params={'sessionKey': session})
-        count = mirai_of(r).get('data')
-        r = requests.get(mirai_api('/fetchLatestMessage'),
-                         params={'sessionKey': session, 'count': count})
-        msg_list = mirai_of(r).get('data')
-        for msg in msg_list:
-            callback(msg)
-        time.sleep(timeout)
+def get_loop_pull(session):
+    def _loop(callback: function, timeout=10):
+        while True:
+            r = requests.get(mirai_api('/countMessage'),
+                            params={'sessionKey': session})
+            count = mirai_of(r).get('data')
+            r = requests.get(mirai_api('/fetchLatestMessage'),
+                            params={'sessionKey': session, 'count': count})
+            msg_list = mirai_of(r).get('data')
+            for msg in msg_list:
+                callback(msg)
+            time.sleep(timeout)
+
+def get_group(msg):
+    return msg['sender']['group']['id']
