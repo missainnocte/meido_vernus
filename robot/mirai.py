@@ -32,22 +32,25 @@ def send(session, target, msgChain):
 
 def get_session():
     session = auth()
-    verify(session)
+    verify(session, QQ_NUM)
     return session
 
 
 def get_loop_pull(session):
-    def _loop(callback: function, timeout=10):
+    def _loop(callback, timeout=3):
         while True:
             r = requests.get(mirai_api('/countMessage'),
                             params={'sessionKey': session})
             count = mirai_of(r).get('data')
-            r = requests.get(mirai_api('/fetchLatestMessage'),
-                            params={'sessionKey': session, 'count': count})
-            msg_list = mirai_of(r).get('data')
-            for msg in msg_list:
-                callback(msg)
+            if not count == 0:
+                r = requests.get(mirai_api('/fetchLatestMessage'),
+                                params={'sessionKey': session, 'count': count})
+                log.info('获取到{}条消息: {}'.format(count, r.text))
+                msg_list = mirai_of(r).get('data')
+                for msg in msg_list:
+                    callback(msg)
             time.sleep(timeout)
+    return _loop
 
 def get_group(msg):
     return msg['sender']['group']['id']

@@ -21,7 +21,7 @@ def down_setu(id):
 
 
 def send_setu(target):
-    log.info('发送色图到{}'.format(target))
+    log.info('开始发送色图到{}'.format(target))
 
     def _ret(s):
         r = requests.get(SETU_API).json()
@@ -34,17 +34,18 @@ def send_setu(target):
                 'type': 'Image',
                 'url': p
             }])
+            log.info('完成发送色图到{}, 色图: {}'.format(target, img.get('url')))
     return _ret
 
 
 def event_handler(msg):
-    msg_chain = msg.get('messageChange')
+    msg_chain = msg.get('messageChain')
     at_me = filter(lambda v: v.get('type') ==
                    'At' and v.get('target') == QQ_NUM, msg_chain)
-    if len(at_me) == 0:
+    if len([at_me]) == 0:
         return
     req_setu = filter(lambda v: v.get('type') ==
                       'Plain' and '色图' in v.get('text'), msg_chain)
-    if len(req_setu) == 0:
+    if len([req_setu]) == 0:
         return
     return send_setu(get_group(msg))

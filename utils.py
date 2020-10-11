@@ -12,25 +12,28 @@ def mirai_api(p):
 
 def mirai_of(r: requests.Response):
     if not r.ok:
-        log.error('{} http错误: {}'.format(r.url, r))
+        log.error('{} http错误 {}, 请求为 {}'.format(r.url, r.text, r.request.body))
         raise HTTPError
     res = r.json()
-    if not res.get('code') == 1:
-        log.error('{} api错误'.format(r.url, res))
+    if not res.get('code') == 0:
+        log.error('{} api错误 {}, 请求为 {}'.format(r.url, r.text, r.request.body))
         raise Exception
     return res
 
-
-id = 0
-
-
 def localize(url):
-    if id == TEMP_MAX:
-        id = 0
-    else:
-        id = id + 1
+    # if id == TEMP_MAX:
+    #     id = 0
+    # else:
+    #     id = id + 1
+    log.info('开始缓存文件, url: {}'.format(url))
     r = requests.get(url)
-    path = '/temp/{}.png'.format(id)
+    filename = url.split('/')[-1]
+    path = '/temp/{}'.format(filename)
     with open('{}{}'.format(PUBLIC_PATH, path), 'wb') as f:
         f.write(r.content)
+    log.info('完成缓存文件, url: {}, local: {}'.format(url, path))
     return (path, id)
+
+if __name__ == "__main__":
+    for r in range(0, 10):
+        print(localize('https://i.pixiv.cat/img-original/img/2018/08/31/20/00/00/70474544_p0.png'))
