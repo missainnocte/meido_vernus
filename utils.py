@@ -30,7 +30,7 @@ def localize(url):
     log.debug('开始缓存文件, url: {}'.format(url))
     r = requests.get(url)
     filename = url.split('/')[-1]
-    path = '/temp/'
+    path = 'temp/'
     log.debug('缓存文件下载完成, url: {}'.format(url))
     try:
         p = os.path.join(PUBLIC_PATH, path)
@@ -41,10 +41,14 @@ def localize(url):
             raise Exception('{}是文件夹'.format(p))
         with open(p, 'wb') as f:
             f.write(r.content)
+        log.debug('完成缓存文件, url: {}, local: {}'.format(url, p))
     except Exception as e:
         log.error(e)
-    log.debug('完成缓存文件, url: {}, local: {}'.format(url, path))
-    return (path, id)
+    return path + filename
+
+
+def every(callback, iter):
+    return all(map(callback, iter))
 
 
 if __name__ == "__main__":

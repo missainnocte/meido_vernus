@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 .idea
 *.db
-vscode
+.vscode
 config.py

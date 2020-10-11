@@ -17,11 +17,11 @@ def send_bye():
     pass
 
 
-def init():
+def init(pool):
     s = get_session()
     atexit.register(send_bye)
     loop_pull = get_loop_pull(s)
     arr = [setu_handler]
-    thread_pool = ThreadPoolExecutor(THREAD_POOL)
-    event_handler = get_sync_hanlde(arr, thread_pool, s)
+    # thread_pool = ThreadPoolExecutor(THREAD_POOL)
+    event_handler = get_sync_hanlde(arr, pool, s)
     loop_pull(event_handler)

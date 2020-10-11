@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from initializer import init
+from initializer import get_thread_pool, init
 from robot import init as init_robot
 
 
@@ -18,4 +18,5 @@ def welcome():
 if __name__ == '__main__':
     welcome()
     init()
-    init_robot()
+    thread_pool = get_thread_pool()
+    init_robot(thread_pool)
