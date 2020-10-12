@@ -3,6 +3,7 @@
 import logging as log
 
 import requests
+from config import *
 
 
 def refresh(uid):
@@ -26,11 +27,9 @@ def get_matches(uid):
 
 def get_user(uids: list):
     try:
-        url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/'
-        r = requests.get(url, params={
-            'key': '',
-            'steamids': ','.join(uids)
-        })
-        return r.json().get('response')
+        url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'.format(
+            STEAM_KEY, ','.join(uids))
+        r = requests.get(url)
+        return r.json().get('response').get('players')
     except requests.HTTPError as e:
         log.error(e)

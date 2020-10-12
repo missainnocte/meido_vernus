@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from config import *
 
 from .event import get_sync_hanlde
-from .mirai import get_loop_pull, get_session, send
+from .mirai import get_job_msg, get_loop_pull, get_session, send
 from .setu import event_handler as setu_handler
 
 
@@ -20,8 +20,8 @@ def send_bye():
 def init(pool):
     s = get_session()
     atexit.register(send_bye)
-    loop_pull = get_loop_pull(s)
     arr = [setu_handler]
     # thread_pool = ThreadPoolExecutor(THREAD_POOL)
     event_handler = get_sync_hanlde(arr, pool, s)
-    loop_pull(event_handler)
+    return get_job_msg(s, event_handler)
+    # loop_pull(event_handler)

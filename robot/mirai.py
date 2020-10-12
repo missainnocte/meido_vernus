@@ -40,17 +40,33 @@ def get_loop_pull(session):
     def _loop(callback, timeout=3):
         while True:
             r = requests.get(mirai_api('/countMessage'),
-                            params={'sessionKey': session})
+                             params={'sessionKey': session})
             count = mirai_of(r).get('data')
             if not count == 0:
                 r = requests.get(mirai_api('/fetchLatestMessage'),
-                                params={'sessionKey': session, 'count': count})
+                                 params={'sessionKey': session, 'count': count})
                 log.info('获取到{}条消息: {}'.format(count, r.text))
                 msg_list = mirai_of(r).get('data')
                 for msg in msg_list:
                     callback(msg)
             time.sleep(timeout)
     return _loop
+
+
+def get_job_msg(session, callback):
+    def _job():
+        r = requests.get(mirai_api('/countMessage'),
+                         params={'sessionKey': session})
+        count = mirai_of(r).get('data')
+        if not count == 0:
+            r = requests.get(mirai_api('/fetchLatestMessage'),
+                             params={'sessionKey': session, 'count': count})
+            log.info('获取到{}条消息: {}'.format(count, r.text))
+            msg_list = mirai_of(r).get('data')
+            for msg in msg_list:
+                callback(msg)
+    return _job
+
 
 def get_group(msg):
     return msg['sender']['group']['id']

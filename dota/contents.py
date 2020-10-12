@@ -8,6 +8,11 @@ LOCAL_SQLLIST_FILE = 'database.db'
 
 BOT_NAME = 'DOTA2下分视奸小助手'
 
+ONLINE_MSG = [
+    '{}正在打DOTA, 天道酬勤!!',
+    '{}又在酬勤了, 一天20把DOTA是有效果的呀~'
+]
+
 # 可以在这里添加新的阴阳怪气, {}为昵称位置
 WIN_NEGATIVE = [
     '{}侥幸赢得了比赛',
