@@ -26,11 +26,13 @@ def match_job(pool: ThreadPoolExecutor):
 
 def status_job(pool):
     # while True:
-    def _job():
-        users = online()
-        msg = online_msg(users)
-        send(msg)
-    pool.submit(_job)
+    def wrapper():
+        def _job():
+            users = online()
+            msg = online_msg(users)
+            send(msg)
+        pool.submit(_job)
+    return wrapper
     # time.sleep(timeout)
 
 # def init(threads):
