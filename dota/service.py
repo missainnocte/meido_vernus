@@ -1,3 +1,5 @@
+import logging as log
+
 from config import *
 
 from .api import get_matches, get_user, refresh
@@ -9,11 +11,13 @@ def online():
     new_online = []
     for user in users:
         uid = user.get('steamid')
+        log.info('获取到{}信息: {}'.format(uid, user))
         if user.get('gameid') == '570':
             if not DOTA_CACHE.online(uid):
                 new_online.append(uid)
         else:
             DOTA_CACHE.offline(uid)
+    log.info('新在线玩家{}'.format(new_online))
     return new_online
 
 

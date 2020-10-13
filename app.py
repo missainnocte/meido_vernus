@@ -24,8 +24,8 @@ if __name__ == '__main__':
     welcome()
     init()
     thread_pool = get_thread_pool()
-    mirai = init_robot(thread_pool)
-    dota_status = status_job(thread_pool)
+    mirai, session = init_robot(thread_pool)
+    dota_status = status_job(thread_pool, session)
     schedule.every(3).seconds.do(mirai)
     schedule.every().minute.do(dota_status)
     while True:

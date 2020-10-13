@@ -23,5 +23,5 @@ def init(pool):
     arr = [setu_handler]
     # thread_pool = ThreadPoolExecutor(THREAD_POOL)
     event_handler = get_sync_hanlde(arr, pool, s)
-    return get_job_msg(s, event_handler)
+    return get_job_msg(s, event_handler), s
     # loop_pull(event_handler)

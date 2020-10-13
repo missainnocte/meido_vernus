@@ -1,3 +1,4 @@
+import logging as log
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -24,13 +25,18 @@ def match_job(pool: ThreadPoolExecutor):
     # time.sleep(timeout)
 
 
-def status_job(pool):
+def status_job(pool, session):
     # while True:
     def wrapper():
         def _job():
-            users = online()
-            msg = online_msg(users)
-            send(msg)
+            try:
+                users = online()
+                msg = online_msg(users)
+                log.info('发送信息{}'.format(msg))
+                for gp in DOTA_TARGET:
+                    send(session, gp, msg)
+            except Exception as e:
+                log.error(e)
         pool.submit(_job)
     return wrapper
     # time.sleep(timeout)
