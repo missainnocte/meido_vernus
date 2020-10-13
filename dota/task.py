@@ -34,7 +34,10 @@ def status_job(pool, session):
                 msg = online_msg(users)
                 log.info('发送信息{}'.format(msg))
                 for gp in DOTA_TARGET:
-                    send(session, gp, msg)
+                    send(session, gp, [{
+                        'type': 'Plain',
+                        'text': msg
+                    }])
             except Exception as e:
                 log.error(e)
         pool.submit(_job)
