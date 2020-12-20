@@ -11,7 +11,7 @@ class DotaCache(object):
 
     def offline(self, uid):
         if uid in self.users:
-            self.user.remove(uid)
+            self.users.remove(uid)
             return False
         return True
 

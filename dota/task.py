@@ -31,6 +31,8 @@ def status_job(pool, session):
         def _job():
             try:
                 users = online()
+                if len(users) == 0:
+                    return
                 msg = online_msg(users)
                 log.info('发送信息{}'.format(msg))
                 for gp in DOTA_TARGET:
